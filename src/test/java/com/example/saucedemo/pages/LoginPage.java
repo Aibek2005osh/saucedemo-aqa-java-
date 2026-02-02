@@ -8,6 +8,11 @@ public class LoginPage {
     private final WebDriver driver;
     private static final String URL = "https://www.saucedemo.com/";
 
+    private final By username = By.id("user-name");
+    private final By password = By.id("password");
+    private final By loginBtn = By.id("login-button");
+    private final By error = By.cssSelector("[data-test='error']");
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -18,8 +23,20 @@ public class LoginPage {
     }
 
     public void login(String user, String pass) {
-        driver.findElement(By.id("user-name")).sendKeys(user);
-        driver.findElement(By.id("password")).sendKeys(pass);
-        driver.findElement(By.id("login-button")).click();
+        driver.findElement(username).clear();
+        driver.findElement(username).sendKeys(user);
+
+        driver.findElement(password).clear();
+        driver.findElement(password).sendKeys(pass);
+
+        driver.findElement(loginBtn).click();
+    }
+
+    public void clickLogin() {
+        driver.findElement(loginBtn).click();
+    }
+
+    public String getErrorText() {
+        return driver.findElement(error).getText();
     }
 }
