@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id "io.qameta.allure" version "2.11.2"
+}
+
+group = "com.example"
+version = "1.0.0"
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:5.10.2")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+
+    testImplementation "org.seleniumhq.selenium:selenium-java:4.22.0"
+
+    testImplementation "io.qameta.allure:allure-junit5:2.27.0"
+
+    testImplementation "org.slf4j:slf4j-simple:2.0.13"
+}
+
+test {
+    useJUnitPlatform()
+
+    systemProperty "browser", System.getProperty("browser", "chrome")
+    systemProperty "headless", System.getProperty("headless", "false")
+}
+
+allure {
+    report {
+        version.set("2.27.0")
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set("2.27.0")
+            }
+        }
+    }
+}
